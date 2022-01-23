@@ -1,0 +1,22 @@
+@charset "ISO-8859-1";
+
+*{
+	margin:0px;
+	padding:0px;
+}
+
+.jumbo{
+  padding: 7% 12%;
+  margin-bottom:3%;
+  background-color: #e9ecef;
+  
+}
+
+.banner-background{
+	clip-path: polygon(30% 0%, 70% 0%, 100% 0, 100% 82%, 68% 78%, 32% 87%, 0 80%, 0 0);
+}
+
+.primary-background{
+	background:#2196f3 !important;
+}
+
