@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Tech Blog</title>
+<title >Tech Blog</title>
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link  rel="stylesheet" href="css/style.css"><link>
@@ -26,7 +26,7 @@
            <p>Tech blog,world of technolgy</p>
            <p> It is better to wait for a productive programmer to become available than it is to wait for the first available programmer to become productive </p>
            <button class="btn btn-outline-light btn-lg"><i class="fas fa-sign-in-alt"></i> Start! Its Free</button>
-           <button class="btn btn-outline-light btn-lg"><i class="fas fa-user-circle fa-spin"></i> Login</button>
+           <a class="btn btn-outline-light btn-lg" href="login_page.jsp"><i class="fas fa-user-circle fa-spin"></i> Login</a>
            </div>
        </div>
       </div>
