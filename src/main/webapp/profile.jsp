@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="com.tech.blog.entities.User" %>    
+<%@ page import="com.tech.blog.entities.User" %>   
+<%@ page import="com.tech.blog.entities.Message" %>   
 <%@ page errorPage="error_page.jsp" %>    
  <%
    User user=(User)session.getAttribute("currentUser");
@@ -65,6 +66,19 @@
     </nav>
   <!-- navbar end -->
   
+                <%
+                   Message msg=(Message)session.getAttribute("msg");
+                   if(msg!=null){
+                 %>
+                	<div class="alert <%= msg.getCssSelector() %>" role="alert">
+                        <%=msg.getMessage() %>
+                   </div>   
+                <%
+                    session.removeAttribute("msg");
+                    }
+                 
+                %>
+  
   
   <!-- modal open -->
 		<!-- Modal -->
@@ -109,9 +123,56 @@
 				  </tbody>
 				</table>
 				</div>
-				
+				<!-- editing -->
 				<div id="profile_edit" style="display:none">
-				 <h4>Editing..</h4>
+				<h3 class="mt-3">Please edit carefully!</h3>
+				 <form action="EditServlet" method="post" enctype="multipart/form-data">
+				 <table class="table">
+				  <tbody>
+				     <tr>
+				      <th scope="row">Id</th>
+				      <td><%= user.getId() %></td>
+				    </tr>
+				    
+				     <tr>
+				      <th scope="row">Email</th>
+				      <td><input name="user-email" class="form-control" type="email" value="<%= user.getEmail() %>"></td>
+				    </tr>
+				     <tr>
+				      <th scope="row">Password</th>
+				      <td><input name="user-password" class="form-control" type="password" value="<%= user.getPassword() %>"></td>
+				    </tr>
+				    
+				     <tr>
+				      <th scope="row">Name</th>
+				      <td><input  name="user-name" class="form-control" type="text" value="<%= user.getName() %>"></td>
+				    </tr>
+				    
+				     <tr>
+				      <th scope="row">Status</th>
+				      <td><textarea name="user-about" rows="3" class="form-control" ><%= user.getAbout() %></textarea></td>
+				    </tr>
+				     
+				     <tr>
+				      <th scope="row">Gender</th>
+				      <td><%= user.getGender() %></td>
+				    </tr>
+				    
+				     <tr>
+				      <th scope="row">Profile pic</th>
+				      <td><input name="user-profile-photo" type="file" class="form-control" name="user-profile"></td>
+				    </tr>
+				    
+				  
+				    
+				  </tbody>
+				    
+				 </table>
+				 <div class="container">
+				    <button type="submit" class="btn btn-outline-primary">Save</button>
+				 </div>
+				 
+				 </form>
 				</div>
 		         
 		        </div>
