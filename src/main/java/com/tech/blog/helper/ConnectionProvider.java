@@ -10,7 +10,7 @@ public class ConnectionProvider{
     			
     			//connection provider
     			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/techblog", "root", "#@Nitesh1");
-    			
+    			System.out.println(con);    			
     		}
     	}catch(Exception e) {
     		e.printStackTrace();
