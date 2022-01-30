@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="com.tech.blog.entities.User" %>   
-<%@ page import="com.tech.blog.entities.Message" %>   
+<%@ page import="com.tech.blog.entities.Message" %> 
+<%@ page import="com.tech.blog.entities.Category" %> 
+<%@ page import="com.tech.blog.helper.ConnectionProvider" %>
+<%@ page import="com.tech.blog.dao.CategoryDao" %> 
+<%@ page import="java.util.*" %>
 <%@ page errorPage="error_page.jsp" %>    
  <%
    User user=(User)session.getAttribute("currentUser");
@@ -46,8 +50,13 @@
               </ul>
             </li>
             
-             <li class="nav-item">
+            <li class="nav-item">
               <a class="nav-link" href="#"><i class="fas fa-address-book"></i>Contact</a>
+            </li>
+            
+            
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#upload-post-modal"><i class="fas fa-upload" ></i>Upload post</a>
             </li>
             
             
@@ -187,6 +196,65 @@
   
   <!-- modal end -->
   
+  
+  <!-- start upload post modal -->
+  
+	
+	
+	<!-- Modal -->
+	<div class="modal fade" id="upload-post-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header primary-background text-white">
+	        <h5 class="modal-title" id="exampleModalLabel">Provide the post details..</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	       <form  id="upload-post-data" action="AddPostServlet" method="POST">
+	        
+	           <div class="form-group">
+	             <select class="form-control selectid" name="cid">
+	               <option selected disabled>---Select Category---</option>
+	               
+	               <% 
+	                   CategoryDao cd=new CategoryDao(ConnectionProvider.getConnection());
+	                   ArrayList<Category> al= cd.getCategories();
+	                   for(Category c:al){
+	                %>
+	                   <option value="<%=c.getCid() %>" ><%= c.getName() %></option>
+	                <%  
+	                  }
+	               %>
+	              
+	             </select>
+	           </div>
+	           <div class="form-group mt-2">
+	             <input name="post-title" type="text" placeholder="Enter post title" class="form-control">
+	           </div>
+	           <div class="form-group mt-2">
+	             <textarea type="text" rows="5" class="form-control " name="post-content" placeholder="Enter content here.."></textarea>
+	           </div>
+	            <div class="form-group mt-2">
+	             <textarea type="text" rows="5" class="form-control" name="post-code" placeholder="Enter programe code here if you have.."></textarea>
+	           </div>
+	            <div class="form-group mt-2">
+	             <label>Upload content photo:</label>
+	             <br>
+	             <input type="file" class="form-control" name="post-pic">
+	           </div>
+	           
+	           <div class="container text-center mt-2">
+	             <button type="submit" class="btn btn-outline-primary">Post upload</button>
+	           </div>
+	        </form>
+	      </div>
+	     
+	    </div>
+	  </div>
+	</div>
+  
+  <!-- end upload post modal -->
+  
   <!--javascript cdn-->
 	 <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -199,6 +267,7 @@
 		  let flag=false;
 		  
 		  $('#edit_details').click(function(){
+			  
 			 if(flag==false){
 				 $("#profile_edit").show();
 				 $("#profile_details").hide();
@@ -213,6 +282,28 @@
 		  }) 
 		  
 	  });
+	</script>
+	<script>
+	$(document).ready(function(){
+		   $("#upload-post-data").on("submit",function(event){
+			   event.preventDefault();
+			   let form =new FormData(this);
+			   $.ajax({
+				   url:"AddPostServlet",
+				   type:"post",
+				   data:form,
+				   success:function(data){
+					   console.log(data);
+				   },
+				   error:function(data){
+					   console.log("error occur...");
+				   },
+				   processData:false,
+				   contentType:false
+			   })
+			   
+		   })
+	   })
 	</script>
 </body>
 </html>
