@@ -3,6 +3,8 @@ package com.tech.blog.servelts;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -44,7 +46,10 @@ public class AddPostServlet extends HttpServlet {
 //		out.println(ptitle+" "+pcontent+" "+pcode+" "+p.getSubmittedFileName()+" "+catid+" "+u.getId());
 		Posts post=new Posts(ptitle,pcontent,pcode,p.getSubmittedFileName(),catid,u.getId());
 		boolean check1=cd.savePost(post);
+	
 		String path=request.getRealPath("/")+"postpic"+File.separator+p.getSubmittedFileName();
+		
+		
 		boolean check2=ProfileEdit.savePhoto(p.getInputStream(), path);
 		if(check1&&check2) {
 			out.print("done");

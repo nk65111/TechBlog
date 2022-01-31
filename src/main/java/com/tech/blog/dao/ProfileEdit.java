@@ -3,6 +3,9 @@ package com.tech.blog.dao;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+
+import com.tech.blog.entities.Posts;
 
 public class ProfileEdit {
   public static boolean deletePhoto(String path) {
@@ -32,5 +35,7 @@ public class ProfileEdit {
 	  }
 	  return flag;
   }
+  
+ 
 
 }

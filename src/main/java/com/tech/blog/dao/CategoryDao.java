@@ -49,4 +49,56 @@ public class CategoryDao {
 	   }
 	   return flag;
    }
+   
+   public ArrayList<Posts> getAllPosts(){
+		  ArrayList<Posts> res=new ArrayList<>();
+		  try {
+			  String query="Select * from posts order by pid desc";
+			  PreparedStatement psmt=con.prepareStatement(query);
+			  ResultSet set=psmt.executeQuery();
+			
+			  while(set.next()) {
+				  int pid=set.getInt("pid");
+				  String ptitle=set.getString("ptitle");
+				  String pcontent=set.getString("pcontent");
+				  String pcode = set.getString("pcode");
+				  String ppic=set.getString("ppic");
+				  Timestamp pdate=set.getTimestamp("pdate");
+				  int catid=set.getInt("catid");
+				  int userid=set.getInt("userid");
+				  Posts post=new Posts(pid,ptitle,pcontent,pcode,ppic,pdate,catid,userid);
+				  res.add(post);
+			  }
+			   
+		  }catch(Exception e) {
+			  e.printStackTrace();
+		   }
+		  return res;
+	  }
+   
+   
+     public  ArrayList<Posts> getCategoryByCatId(int catId){
+    	 ArrayList<Posts> res=new ArrayList<>();
+    	 try {
+    		 String query="select * from posts where catid=?";
+    		 PreparedStatement psmt=con.prepareStatement(query);
+    		 psmt.setInt(1, catId);
+			  ResultSet set=psmt.executeQuery();
+			  while(set.next()) {
+				  int pid=set.getInt("pid");
+				  String ptitle=set.getString("ptitle");
+				  String pcontent=set.getString("pcontent");
+				  String pcode = set.getString("pcode");
+				  String ppic=set.getString("ppic");
+				  Timestamp pdate=set.getTimestamp("pdate");
+				  int userid=set.getInt("userid");
+				  Posts post=new Posts(pid,ptitle,pcontent,pcode,ppic,pdate,catId,userid);
+				  res.add(post);
+			  }
+    		 
+    	 }catch(Exception e) {
+    		 e.printStackTrace();
+    	 }
+    	 return res;
+     }
 }

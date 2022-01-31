@@ -87,6 +87,42 @@
                     }
                  
                 %>
+                
+                
+ <!-- category filter -->
+          <div class="container">
+            <div class="row m-4">
+              <div class="col-md-3">
+                 <div class="list-group">
+				  <a href="#" onClick="getPost(0,this)" class="c-link list-group-item list-group-item-action active" aria-current="true">
+				    All categories
+				  </a>
+				  <%
+					  CategoryDao dao=new CategoryDao(ConnectionProvider.getConnection());
+	                  ArrayList<Category> cc = dao.getCategories();
+	                  for(Category c:cc){
+	               %>
+	                 <a href="#" onClick="getPost(<%=c.getCid()%>,this)"class="c-link list-group-item list-group-item-action"><%= c.getName() %></a>
+	              <% 
+	                  }
+				  %>
+				 
+				  
+				  
+				</div>
+              </div>
+              <div class="col-md-9">
+                <div class="container">
+                 <div id="loder" class="text-center mt-2">
+                 <i class="fas fa-spinner fa-4x fa-spin"></i>
+                 <h3 class="mt-2">Loding..</h3>
+                 </div>
+                 <div id="post-container">
+                 </div>
+                </div>
+              </div>
+            </div>
+          </div>               
   
   
   <!-- modal open -->
@@ -259,7 +295,7 @@
 	 <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<!-- jsfile -->
 	<script type="text/javascript" src="js/myjs.js"></script>
 	<script>
@@ -294,9 +330,27 @@
 				   data:form,
 				   success:function(data){
 					   console.log(data);
+					   if(data.trim()==="done"){
+						   swal({
+							   title: "Success!",
+							   text: "Your Post is uploded!",
+							   icon: "success",
+							 });
+					   }else{
+						   swal({
+							   title: "Error!!",
+							   text: "Something went wrong!",
+							   icon: "error",
+							 });
+					   }
 				   },
 				   error:function(data){
-					   console.log("error occur...");
+					   console.log("error....");
+					   swal({
+						   title: "Error!!",
+						   text: "Something went wrong!",
+						   icon: "error",
+						 });
 				   },
 				   processData:false,
 				   contentType:false
@@ -304,6 +358,30 @@
 			   
 		   })
 	   })
+	</script>
+	
+	<script>
+	
+	  function getPost(cid,temp){
+		  $("#loder").show();
+		  $(".c-link").removeClass("active");
+		  $("#post-container").hide();
+		  $.ajax({
+				 url:"loding_post.jsp",
+				 data:{cid:cid},
+				 success:function(data){
+					 console.log(data);
+					 $("#loder").hide();
+					 $("#post-container").show();
+					 $("#post-container").html(data);
+					 $(temp).addClass("active");
+				 }
+			 })
+	  }
+	  $(document).ready(function(){
+		  let elemnt=$(".c-link")[0];
+		  getPost(0,elemnt);
+	  })
 	</script>
 </body>
 </html>
