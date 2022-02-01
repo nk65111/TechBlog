@@ -20,9 +20,16 @@
 <link  rel="stylesheet" href="css/style.css"><link>
 <!-- font awsome cdn -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
+<head>
 <meta charset="ISO-8859-1">
 <title>Page</title>
+<style>
+body{
+ background:url(img/background-image.jpg);
+ background-size:cover;
+ background-attachment:fixed;
+}
+</style>
 </head>
 <body>
     
@@ -370,7 +377,7 @@
 				 url:"loding_post.jsp",
 				 data:{cid:cid},
 				 success:function(data){
-					 console.log(data);
+					
 					 $("#loder").hide();
 					 $("#post-container").show();
 					 $("#post-container").html(data);
@@ -383,5 +390,35 @@
 		  getPost(0,elemnt);
 	  })
 	</script>
+	
+	<script>
+	 function likePost(pid,uid){
+		console.log(pid+","+uid);
+		let d={
+			pid:pid,
+			uid:uid,
+			operation:"like"
+		}
+		$.ajax({
+			url:"LikeServelt",
+			type:"post",
+			data:d,
+			success:function(data){
+				console.log(data);
+				let likeid="like-count-"+pid;
+				console.log(likeid);
+				let c=$('#' + likeid).html();
+				console.log(c);
+				c++;
+				$('#' + likeid).html(c);
+			},
+			error:function(data){
+				console.log(data);
+			}
+		})
+		
+	}
+	</script>
+
 </body>
 </html>

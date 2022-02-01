@@ -101,4 +101,28 @@ public class CategoryDao {
     	 }
     	 return res;
      }
+     public Posts getPostByPostId(int postid) {
+    	 Posts post=null;
+    	 try {
+    		 String query="Select * from posts where pid=?";
+    		 PreparedStatement psmt=con.prepareStatement(query);
+    		 psmt.setInt(1, postid);
+    		 ResultSet set=psmt.executeQuery();
+    		 if(set.next()) {
+    			 
+				  String ptitle=set.getString("ptitle");
+				  String pcontent=set.getString("pcontent");
+				  String pcode = set.getString("pcode");
+				  String ppic=set.getString("ppic");
+				  Timestamp pdate=set.getTimestamp("pdate");
+				  int catid=set.getInt("catid");
+				  int userid=set.getInt("userid");
+				   post=new Posts(postid,ptitle,pcontent,pcode,ppic,pdate,catid,userid);
+			
+    		 }
+    	 }catch(Exception e) {
+    		 e.printStackTrace();
+    	  }
+    	 return post;
+     }
 }

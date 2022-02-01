@@ -2,10 +2,12 @@
 <%@ page import="com.tech.blog.helper.ConnectionProvider" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.io.*" %>
+<%@ page import="com.tech.blog.dao.LikeDao" %>
 <%@ page import="com.tech.blog.entities.Posts" %>
+<%@ page import="com.tech.blog.entities.User" %> 
 <div class="row">
 <%
- 
+   User user=(User)session.getAttribute("currentUser");
    CategoryDao cdao=new CategoryDao(ConnectionProvider.getConnection());
    int catid=Integer.parseInt(request.getParameter("cid"));
    ArrayList<Posts> res=null;
@@ -31,7 +33,10 @@
 	   <b><%= p.getPtitle() %></b>
 	  </div>
 	  <div class="card-footer primary-background text-center">
-	    <a href="#!" class="btn btn-outline-light btn-sm"><i class="fas fa-thumbs-up"></i><span>10</span></a>
+        <%
+            LikeDao ldao=new LikeDao(ConnectionProvider.getConnection());
+         %>
+		<a href="#!" onClick="likePost(<%= p.getPid() %>,<%= user.getId() %>)" class="btn btn-outline-light btn-sm"><i class="fas fa-thumbs-up"></i><span id="like-count-<%= p.getPid() %>"><%= ldao.countLikePost(p.getPid()) %></span></a>
 	     <a href="read-more-post.jsp?post_id=<%=p.getPid() %>" class="btn btn-outline-light btn-sm">Read More</a>
 	      <a href="#!" class="btn btn-outline-light btn-sm"><i class="fas fa-comment"></i><span>20</span></a>
 	  </div>
